@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import swaggerDocs from './docs/swagger.js';
 
 dotenv.config({
   path: './.env',
@@ -28,5 +29,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRouter);
+
+// Initialize Swagger Documentation
+swaggerDocs(app);
 
 export default app;
