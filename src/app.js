@@ -8,6 +8,7 @@ import authRouter from './routes/authRoutes.js';
 import categoryRouter from './routes/categoryRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import cartRouter from './routes/cartRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
 
 dotenv.config({
   path: './.env',
@@ -35,6 +36,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/cart', cartRouter);
+app.use('/api/v1/orders', orderRouter);
 
 // Initialize Swagger Documentation
 swaggerDocs(app);

@@ -6,8 +6,9 @@ import {
   successResponse,
   validationErrorResponse,
 } from '../utils/responseHandler.js';
+import { catchAsync } from '../utils/catchAsync.js';
 
-export const addToCart = async (req, res) => {
+export const addToCart = catchAsync(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return validationErrorResponse(res, errors);
 
@@ -30,9 +31,9 @@ export const addToCart = async (req, res) => {
   }
 
   return successResponse(res, 'Cart updated', 200);
-};
+});
 
-export const viewCart = async (req, res) => {
+export const viewCart = catchAsync(async (req, res) => {
   const userId = req.user.id;
 
   const cartItems = await Cart.findAll({
@@ -40,4 +41,4 @@ export const viewCart = async (req, res) => {
     include: [{ model: Product, attributes: ['name', 'price', 'imageUrl'] }],
   });
   return successResponse(res, 'Cart retrieved', cartItems, 200);
-};
+});

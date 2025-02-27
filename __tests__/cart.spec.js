@@ -8,7 +8,7 @@ import Category from '../src/models/Category.js';
 import User from '../src/models/User.js';
 
 describe('Cart API', () => {
-  let token, userId, categoryId, productId, product;
+  let token, categoryId, productId, product;
 
   beforeAll(async () => {
     await sequelize.sync({ force: true }); // Reset DB before running tests
@@ -35,7 +35,6 @@ describe('Cart API', () => {
       price: 500,
       imageUrl: 'image.jpg',
     });
-    console.log("Product created",product);
     
     productId = product.id;
   });
