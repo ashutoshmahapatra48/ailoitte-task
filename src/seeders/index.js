@@ -8,8 +8,8 @@ const seedDatabase = async () => {
     await sequelize.sync();
     console.log("Database synced!");
 
-    // await seedAdmin();
-    // await seedCategories();
+    await seedAdmin();
+    await seedCategories();
     await seedProducts();
 
     console.log("Seeding completed successfully!");
