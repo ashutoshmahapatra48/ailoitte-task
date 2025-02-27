@@ -71,31 +71,7 @@ const swaggerDefinition = {
           },
         },
       },
-      "/user/profile": {
-        get: {
-          summary: "Get user profile",
-          tags: ["User"],
-          security: [{ BearerAuth: [] }],
-          responses: {
-            200: {
-              description: "User profile fetched successfully",
-              content: {
-                "application/json": {
-                  schema: {
-                    type: "object",
-                    properties: {
-                      id: { type: "string" },
-                      name: { type: "string" },
-                      email: { type: "string" },
-                    },
-                  },
-                },
-              },
-            },
-            401: { description: "Unauthorized" },
-          },
-        },
-      },
+      
     },
   };
   

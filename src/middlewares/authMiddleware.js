@@ -5,7 +5,7 @@ export const authenticateUser = (req, res, next) => {
   const token = req.header("Authorization");
 
   if (!token) {
-    return errorResponse(res, "Unauthorized request", 401);
+    return errorResponse(res, "Unauthorized", 401);
   }
 
   try {

@@ -14,7 +14,6 @@ export const errorResponse = (res, message, statusCode = 500) => {
 };
 
 export const validationErrorResponse = (res, errors, statusCode = 400) => {
-  console.log(errors);
   
   return res.status(statusCode).json({
     success: false,

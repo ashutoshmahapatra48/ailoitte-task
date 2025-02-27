@@ -6,14 +6,9 @@ import {
 } from '../utils/responseHandler.js';
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { catchAsync } from '../utils/catchAsync.js';
+import { generateToken } from '../utils/jwtHelper.js';
 
-const generateToken = (user) => {
-  return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRY,
-  });
-};
 
 // SIGNUP
 export const signUp = catchAsync(async (req, res) => {
