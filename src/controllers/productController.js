@@ -8,6 +8,7 @@ import {
 } from '../utils/responseHandler.js';
 import { catchAsync } from '../utils/catchAsync.js';
 import { uploadOnCloudinary } from '../utils/uploadCloudinary.js';
+import { Op } from 'sequelize';
 
 // Create Product
 export const createProduct = catchAsync(async (req, res) => {
@@ -39,8 +40,47 @@ export const createProduct = catchAsync(async (req, res) => {
 
 // Get All Products
 export const getAllProducts = catchAsync(async (req, res) => {
-  const products = await Product.findAll({ include: { model: Category, attributes: ['name'] } });
-  return successResponse(res, 'Products retrieved successfully', products);
+  let { minPrice, maxPrice, categoryId, search, page, limit, sortBy, sortOrder } = req.query;
+
+  const whereCondition = {};
+
+  // Filter by Price Range
+  if (minPrice || maxPrice) {
+    whereCondition.price = {};
+    if (minPrice) whereCondition.price[Op.gte] = minPrice;
+    if (maxPrice) whereCondition.price[Op.lte] = maxPrice;
+  }
+
+  // Filter by Category
+  if (categoryId) whereCondition.categoryId = categoryId;
+
+  // Search by Name
+  if (search) whereCondition.name = { [Op.iLike]: `%${search}%` }; // Case-insensitive search
+
+  // Pagination
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 10;
+  const offset = (page - 1) * limit;
+
+  // Sorting (default: sort by name in ascending order)
+  sortBy = sortBy || 'name';
+  sortOrder = sortOrder === 'desc' ? 'DESC' : 'ASC';
+
+  // Fetch products with filters
+  const { count, rows: products } = await Product.findAndCountAll({
+    where: whereCondition,
+    include: { model: Category, attributes: ['name'] },
+    order: [[sortBy, sortOrder]],
+    limit,
+    offset,
+  });
+
+  return successResponse(res, 'Products retrieved successfully', {
+    totalProducts: count,
+    totalPages: Math.ceil(count / limit),
+    currentPage: page,
+    products,
+  });
 });
 
 // Get Product by ID
